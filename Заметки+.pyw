@@ -1,5 +1,5 @@
-# Заметки+.рyw Ver.:T-1.07
-    # [версия для Windows]
+# Заметки+.рyw Ver.:T-1.10
+    # [версия для Windows]1111111 2222
     # Новая запись (очистка текста) +
     # Открыть файл (загрузка текста) +
     # Сохранить (сохранение текста) +
@@ -14,51 +14,25 @@
     # Изменение фона заголовка +
     # Динамический заголовок окна +
     # Поле подсказок +
-    # Подсказки для кнопки "пм-новый" +
-    # Эффект наведения для кнопки "пм-новый" +
+    # Подсказки для кнопки "menu_bt_new" +
+    # Эффект наведения для кнопки "menu_bt_new" +
     # Создание меню ~
-    # Функционал кнопки "пм-новый" +
-    # Контейнер "стиль шрифта" с 4 пунктами меню +
-    # Логирование координат и отступов контейнера и кнопок стиля +
-    # Очистка логов отлаженного функционала +
-    # Использование .place() для кнопок стиля и пересчёт ширины контейнера +
-    # Обновление координат кнопок стиля (x=0, 27, 54, 81) +
-    # Увеличение padx для style_container до (16, 0) для учёта скрытого отступа +
-    # Добавление STYLE_BUTTON_SPACING_HEND и расчёт координат через константы +
-    # Вынос параметров style_container в блок настроек +
-    # Удаление ненужных отладочных логов +
+    # Функционал кнопки "menu_bt_new" +
+    # Кнопки стиля перенесены из style_container в menu_bar с использованием .place() +
+    # Логирование координат и отступов кнопок стиля в menu_bar +
+    # Обновление координат кнопок стиля (x=34, 61, 88, 115) +
     # Добавление названия ОС в начало логов +
-    # Отключение логов STREAM от PIL +
-    # Удаление логов координат и отступов +
     # Добавление версии кода в начало логов +
-    # Перемещение CODE_VERSION перед логированием для исправления NameError +
-    # Добавление в заголовок информации о версии для Windows +
-    # Кнопка Bold +
-    # Проверка символов перед и после курсора для кнопки Bold +
-    # Исправление проверки символов перед и после курсора для кнопки Bold +
-    # Добавление отладочных логов для проверки тегов bold +
+    # Кнопка пм-жирный +
+    # Проверка символов перед и после курсора для кнопки пм-жирный +
     # Исправление ошибки TclError при отсутствии символов в выделении +
-    # Очистка отладочных логов после исправления +
-    # Кнопки Italic, Underline, Strikethrough +
-    # Исправление конфликта стилей Bold и Italic через динамическое управление тегами +
+    # Кнопки пм-курсив, пм-подчёркивание, пм-зачёркивание +
+    # Исправление конфликта стилей пм-жирный и пм-курсив через динамическое управление тегами +
     # Добавление копирования и вставки форматирования текста +
     # Добавление поддержки сохранения в .rtf и .txt с учётом форматирования +
     # Добавление парсера RTF для извлечения форматирования при открытии .rtf файлов +
-    # Исправление парсера RTF: устранение лишних пробелов и строки Roboto; при открытии .rtf файлов +
-    # Изменение фона контейнера кнопок стиля на WINDOW_BG и вынос в блок настроек +
-    # Исправление SyntaxError в update_strikethrough_button_icon (btn_striket Hover_icon → btn_striket_hover_icon) +
-    # Исправление SyntaxError в функции save_as (добавление кавычек и корректное форматирование строки) +
-    # Исправление парсера RTF: устранение строки Roboto; при открытии .rtf файлов (2-я попытка) +
-    # Обновление версии до T-1.06 +
-    # Исправление парсера RTF: устранение символов f1 при открытии .rtf файлов (3-я попытка) +
-    # Обновление версии до T-1.06-fix1 +
-    # Обновление параметров кнопок: MENU_BUTTON_HEIGHT=24, MENU_BUTTON_WIDTH=24, STYLE_BUTTON_WIDTH=30, STYLE_BUTTON_HEIGHT=24, STYLE_BUTTON_SPACING_HEND=1 +
-    # Исправление парсера RTF: устранение символов f1 при открытии .rtf файлов (4-я попытка) +
-    # Обновление версии до T-1.06-fix2 +
-    # Исправление парсера RTF: устранение символов f1 при открытии .rtf файлов (5-я попытка с добавлением отладки) +
-    # Обновление версии до T-1.06-fix3 +
-    # Исправление парсера RTF: устранение символов f1 путем корректной обработки \rtf, \ansi, \deff (6-я попытка) +
-    # Обновление версии до T-1.06-fix4 +
+    # Перемещение всех изображений в подкаталог _img\ +
+
 
 import customtkinter as ctk
 import tkinter as tk
@@ -72,7 +46,10 @@ from PIL import Image  # Для работы с изображениями в cu
 import os  # Для работы с путями файлов
 
 # Версия кода
-CODE_VERSION = "T-1.06-fix4"
+CODE_VERSION = "T-1.10"
+
+# Путь к папке с изображениями
+IMG_DIR = "_img"
 
 # Для изменения цвета заголовка на Windows
 if platform.system() == "Windows":
@@ -130,16 +107,10 @@ MENU_BUTTON_IPADDING_Y = 0  # Внутренний отступ кнопки п�
 STYLE_BUTTON_WIDTH = 30  # Ширина кнопок стиля шрифта
 STYLE_BUTTON_HEIGHT = 24  # Высота кнопок стиля шрифта
 STYLE_BUTTON_SPACING_HEND = 1  # Расстояние между кнопками
-STYLE_BUTTON_BOLD_X = 0  # Координата X для первой кнопки
-STYLE_BUTTON_ITALIC_X = STYLE_BUTTON_WIDTH + STYLE_BUTTON_SPACING_HEND - 2  # Координата X для второй кнопки (30 + 1 = 31)
-STYLE_BUTTON_UNDER_X = STYLE_BUTTON_ITALIC_X + STYLE_BUTTON_WIDTH + STYLE_BUTTON_SPACING_HEND - 2  # Координата X для третьей кнопки (31 + 30 + 1 = 62)
-STYLE_BUTTON_STRIKET_X = STYLE_BUTTON_UNDER_X + STYLE_BUTTON_WIDTH + STYLE_BUTTON_SPACING_HEND - 2  # Координата X для четвёртой кнопки (62 + 30 + 1 = 93)
-STYLE_CONTAINER_WIDTH = STYLE_BUTTON_STRIKET_X + STYLE_BUTTON_WIDTH + 5  # Ширина контейнера (93 + 30 + 5 = 128)
-STYLE_CONTAINER_HEIGHT = MENU_BAR_HEIGHT  # Высота контейнера (совпадает с высотой меню)
-STYLE_CONTAINER_BG = WINDOW_BG  # Цвет фона контейнера (совпадает с фоном окна)
-STYLE_CONTAINER_CORNER_RADIUS = 0  # Скругление углов контейнера
-STYLE_CONTAINER_PADX = (1, 0)  # Внешний отступ по горизонтали
-STYLE_CONTAINER_PADY = (MENU_BAR_IPADDING_TOP, MENU_BAR_IPADDING_BOTTOM)  # Внешний отступ по вертикали
+STYLE_BUTTON_BOLD_X = MENU_BUTTON_WIDTH + MENU_BAR_IPADDING_LEFT  # Координата X для первой кнопки (34)
+STYLE_BUTTON_ITALIC_X = STYLE_BUTTON_BOLD_X + STYLE_BUTTON_WIDTH + STYLE_BUTTON_SPACING_HEND - 2  # Координата X для второй кнопки (61)
+STYLE_BUTTON_UNDER_X = STYLE_BUTTON_ITALIC_X + STYLE_BUTTON_WIDTH + STYLE_BUTTON_SPACING_HEND - 2  # Координата X для третьей кнопки (88)
+STYLE_BUTTON_STRIKET_X = STYLE_BUTTON_UNDER_X + STYLE_BUTTON_WIDTH + STYLE_BUTTON_SPACING_HEND - 2  # Координата X для четвёртой кнопки (115)
 
 # === Блок: Параметры текстового поля ===
 TEXT_AREA_PADX_LEFT = 10  # Внешний отступ текстового поля слева
@@ -731,7 +702,7 @@ def main():
                 logging.error(f"Ошибка при повторе действия: {e}")
                 return "break"
 
-        # Функция для обработки клика ЛКМ на кнопке "пм-новый"
+        # Функция для обработки клика ЛКМ на кнопке "menu_bt_new"
         def handle_new_button_click(event=None):
             if is_document_empty():
                 new_note()
@@ -748,7 +719,7 @@ def main():
         # Загружаем иконку btn_new.png
         try:
             btn_new_icon = ctk.CTkImage(
-                light_image=Image.open("btn_new.png"),
+                light_image=Image.open(f"{IMG_DIR}/btn_new.png"),
                 size=(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT)  # Теперь 24x24
             )
         except Exception as e:
@@ -758,7 +729,7 @@ def main():
         # Загружаем иконку btn_new_hover.png
         try:
             btn_new_hover_icon = ctk.CTkImage(
-                light_image=Image.open("btn_new_hover.png"),
+                light_image=Image.open(f"{IMG_DIR}/btn_new_hover.png"),
                 size=(MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT)  # Теперь 24x24
             )
         except Exception as e:
@@ -777,17 +748,17 @@ def main():
             hint_label_left.insert("end", " → Открыть заметку", ("text",))
             hint_label_left.configure(state="disabled")  # Запрещаем редактирование
             if btn_new_hover_icon:
-                menu_button.configure(image=btn_new_hover_icon)
+                menu_bt_new.configure(image=btn_new_hover_icon)
 
         def hide_new_button_hint(event=None):
             hint_label_left.configure(state="normal")  # Разрешаем редактирование
             hint_label_left.delete("1.0", "end")
             hint_label_left.configure(state="disabled")  # Запрещаем редактирование
             if btn_new_icon:
-                menu_button.configure(image=btn_new_icon)
+                menu_bt_new.configure(image=btn_new_icon)
 
-        # Добавляем первую кнопку в меню (пм-новый)
-        menu_button = ctk.CTkButton(
+        # Добавляем первую кнопку в меню (menu_bt_new)
+        menu_bt_new = ctk.CTkButton(
             menu_bar,
             width=MENU_BUTTON_WIDTH,
             height=MENU_BUTTON_HEIGHT,
@@ -799,10 +770,10 @@ def main():
             image=btn_new_icon,
             command=handle_new_button_click
         )
-        menu_button.bind("<Button-3>", open_file)
-        menu_button.bind("<Enter>", show_new_button_hint)
-        menu_button.bind("<Leave>", hide_new_button_hint)
-        menu_button.pack(
+        menu_bt_new.bind("<Button-3>", open_file)
+        menu_bt_new.bind("<Enter>", show_new_button_hint)
+        menu_bt_new.bind("<Leave>", hide_new_button_hint)
+        menu_bt_new.pack(
             side="left",
             padx=(MENU_BAR_IPADDING_LEFT, 0),
             pady=(MENU_BAR_IPADDING_TOP, MENU_BAR_IPADDING_BOTTOM),
@@ -810,25 +781,10 @@ def main():
             ipady=MENU_BUTTON_IPADDING_Y
         )
 
-        # Создаём контейнер для кнопок стиля шрифта
-        style_container = ctk.CTkFrame(
-            menu_bar,
-            width=STYLE_CONTAINER_WIDTH,
-            height=STYLE_CONTAINER_HEIGHT,
-            fg_color=STYLE_CONTAINER_BG,
-            corner_radius=STYLE_CONTAINER_CORNER_RADIUS
-        )
-        style_container.pack_propagate(False)
-        style_container.pack(
-            side="left",
-            padx=STYLE_CONTAINER_PADX,
-            pady=STYLE_CONTAINER_PADY
-        )
-
         # Загружаем иконки для кнопок стиля шрифта
         try:
             btn_bold_icon = ctk.CTkImage(
-                light_image=Image.open("btn_Bold.png"),
+                light_image=Image.open(f"{IMG_DIR}/btn_Bold.png"),
                 size=(STYLE_BUTTON_WIDTH, STYLE_BUTTON_HEIGHT)  # Теперь 30x24
             )
         except Exception as e:
@@ -837,7 +793,7 @@ def main():
 
         try:
             btn_bold_hover_icon = ctk.CTkImage(
-                light_image=Image.open("btn_Bold_hover.png"),
+                light_image=Image.open(f"{IMG_DIR}/btn_Bold_hover.png"),
                 size=(STYLE_BUTTON_WIDTH, STYLE_BUTTON_HEIGHT)  # Теперь 30x24
             )
         except Exception as e:
@@ -846,7 +802,7 @@ def main():
 
         try:
             btn_italic_icon = ctk.CTkImage(
-                light_image=Image.open("btn_italic.png"),
+                light_image=Image.open(f"{IMG_DIR}/btn_italic.png"),
                 size=(STYLE_BUTTON_WIDTH, STYLE_BUTTON_HEIGHT)  # Теперь 30x24
             )
         except Exception as e:
@@ -855,7 +811,7 @@ def main():
 
         try:
             btn_italic_hover_icon = ctk.CTkImage(
-                light_image=Image.open("btn_italic_hover.png"),
+                light_image=Image.open(f"{IMG_DIR}/btn_italic_hover.png"),
                 size=(STYLE_BUTTON_WIDTH, STYLE_BUTTON_HEIGHT)  # Теперь 30x24
             )
         except Exception as e:
@@ -864,7 +820,7 @@ def main():
 
         try:
             btn_under_icon = ctk.CTkImage(
-                light_image=Image.open("btn_under.png"),
+                light_image=Image.open(f"{IMG_DIR}/btn_under.png"),
                 size=(STYLE_BUTTON_WIDTH, STYLE_BUTTON_HEIGHT)  # Теперь 30x24
             )
         except Exception as e:
@@ -873,7 +829,7 @@ def main():
 
         try:
             btn_under_hover_icon = ctk.CTkImage(
-                light_image=Image.open("btn_under_hover.png"),
+                light_image=Image.open(f"{IMG_DIR}/btn_under_hover.png"),
                 size=(STYLE_BUTTON_WIDTH, STYLE_BUTTON_HEIGHT)  # Теперь 30x24
             )
         except Exception as e:
@@ -882,7 +838,7 @@ def main():
 
         try:
             btn_striket_icon = ctk.CTkImage(
-                light_image=Image.open("btn_striket.png"),
+                light_image=Image.open(f"{IMG_DIR}/btn_striket.png"),
                 size=(STYLE_BUTTON_WIDTH, STYLE_BUTTON_HEIGHT)  # Теперь 30x24
             )
         except Exception as e:
@@ -891,7 +847,7 @@ def main():
 
         try:
             btn_striket_hover_icon = ctk.CTkImage(
-                light_image=Image.open("btn_striket_hover.png"),
+                light_image=Image.open(f"{IMG_DIR}/btn_striket_hover.png"),
                 size=(STYLE_BUTTON_WIDTH, STYLE_BUTTON_HEIGHT)  # Теперь 30x24
             )
         except Exception as e:
@@ -969,10 +925,10 @@ def main():
                     sel_end = text_area.index("sel.last")
                     if has_tag("underline", sel_start, sel_end):
                         text_area.tag_remove("underline", sel_start, sel_end)
-                        style_button_under.configure(image=btn_under_icon)
+                        menu_bt_under.configure(image=btn_under_icon)
                     else:
                         text_area.tag_add("underline", sel_start, sel_end)
-                        style_button_under.configure(image=btn_under_hover_icon)
+                        menu_bt_under.configure(image=btn_under_hover_icon)
             except tk.TclError:
                 pass
 
@@ -983,10 +939,10 @@ def main():
                     sel_end = text_area.index("sel.last")
                     if has_tag("strikethrough", sel_start, sel_end):
                         text_area.tag_remove("strikethrough", sel_start, sel_end)
-                        style_button_striket.configure(image=btn_striket_icon)
+                        menu_bt_striket.configure(image=btn_striket_icon)
                     else:
                         text_area.tag_add("strikethrough", sel_start, sel_end)
-                        style_button_striket.configure(image=btn_striket_hover_icon)
+                        menu_bt_striket.configure(image=btn_striket_hover_icon)
             except tk.TclError:
                 pass
 
@@ -996,13 +952,13 @@ def main():
                 sel_start = text_area.index("sel.first")
                 sel_end = text_area.index("sel.last")
                 if has_tag("bold", sel_start, sel_end):
-                    style_button_bold.configure(image=btn_bold_hover_icon)
+                    menu_bt_bold.configure(image=btn_bold_hover_icon)
                 else:
-                    style_button_bold.configure(image=btn_bold_icon)
+                    menu_bt_bold.configure(image=btn_bold_icon)
             else:
                 cursor_pos = text_area.index(tk.INSERT)
                 if "bold" in text_area.tag_names(cursor_pos):
-                    style_button_bold.configure(image=btn_bold_hover_icon)
+                    menu_bt_bold.configure(image=btn_bold_hover_icon)
                     return
                 before_pos = f"{cursor_pos}-1c"
                 after_pos = f"{cursor_pos}+1c"
@@ -1012,22 +968,22 @@ def main():
                     before_has_bold = has_tag("bold", before_pos, before_pos)
                     after_has_bold = has_tag("bold", after_pos, after_pos)
                     if before_has_bold and after_has_bold:
-                        style_button_bold.configure(image=btn_bold_hover_icon)
+                        menu_bt_bold.configure(image=btn_bold_hover_icon)
                         return
-                style_button_bold.configure(image=btn_bold_icon)
+                menu_bt_bold.configure(image=btn_bold_icon)
 
         def update_italic_button_icon():
             if text_area.tag_ranges("sel"):
                 sel_start = text_area.index("sel.first")
                 sel_end = text_area.index("sel.last")
                 if has_tag("italic", sel_start, sel_end):
-                    style_button_italic.configure(image=btn_italic_hover_icon)
+                    menu_bt_italic.configure(image=btn_italic_hover_icon)
                 else:
-                    style_button_italic.configure(image=btn_italic_icon)
+                    menu_bt_italic.configure(image=btn_italic_icon)
             else:
                 cursor_pos = text_area.index(tk.INSERT)
                 if "italic" in text_area.tag_names(cursor_pos):
-                    style_button_italic.configure(image=btn_italic_hover_icon)
+                    menu_bt_italic.configure(image=btn_italic_hover_icon)
                     return
                 before_pos = f"{cursor_pos}-1c"
                 after_pos = f"{cursor_pos}+1c"
@@ -1037,22 +993,22 @@ def main():
                     before_has_italic = has_tag("italic", before_pos, before_pos)
                     after_has_italic = has_tag("italic", after_pos, after_pos)
                     if before_has_italic and after_has_italic:
-                        style_button_italic.configure(image=btn_italic_hover_icon)
+                        menu_bt_italic.configure(image=btn_italic_hover_icon)
                         return
-                style_button_italic.configure(image=btn_italic_icon)
+                menu_bt_italic.configure(image=btn_italic_icon)
 
         def update_underline_button_icon():
             if text_area.tag_ranges("sel"):
                 sel_start = text_area.index("sel.first")
                 sel_end = text_area.index("sel.last")
                 if has_tag("underline", sel_start, sel_end):
-                    style_button_under.configure(image=btn_under_hover_icon)
+                    menu_bt_under.configure(image=btn_under_hover_icon)
                 else:
-                    style_button_under.configure(image=btn_under_icon)
+                    menu_bt_under.configure(image=btn_under_icon)
             else:
                 cursor_pos = text_area.index(tk.INSERT)
                 if "underline" in text_area.tag_names(cursor_pos):
-                    style_button_under.configure(image=btn_under_hover_icon)
+                    menu_bt_under.configure(image=btn_under_hover_icon)
                     return
                 before_pos = f"{cursor_pos}-1c"
                 after_pos = f"{cursor_pos}+1c"
@@ -1062,22 +1018,22 @@ def main():
                     before_has_underline = has_tag("underline", before_pos, before_pos)
                     after_has_underline = has_tag("underline", after_pos, after_pos)
                     if before_has_underline and after_has_underline:
-                        style_button_under.configure(image=btn_under_hover_icon)
+                        menu_bt_under.configure(image=btn_under_hover_icon)
                         return
-                style_button_under.configure(image=btn_under_icon)
+                menu_bt_under.configure(image=btn_under_icon)
 
         def update_strikethrough_button_icon():
             if text_area.tag_ranges("sel"):
                 sel_start = text_area.index("sel.first")
                 sel_end = text_area.index("sel.last")
                 if has_tag("strikethrough", sel_start, sel_end):
-                    style_button_striket.configure(image=btn_striket_hover_icon)
+                    menu_bt_striket.configure(image=btn_striket_hover_icon)
                 else:
-                    style_button_striket.configure(image=btn_striket_icon)
+                    menu_bt_striket.configure(image=btn_striket_icon)
             else:
                 cursor_pos = text_area.index(tk.INSERT)
                 if "strikethrough" in text_area.tag_names(cursor_pos):
-                    style_button_striket.configure(image=btn_striket_hover_icon)
+                    menu_bt_striket.configure(image=btn_striket_hover_icon)
                     return
                 before_pos = f"{cursor_pos}-1c"
                 after_pos = f"{cursor_pos}+1c"
@@ -1087,9 +1043,9 @@ def main():
                     before_has_strikethrough = has_tag("strikethrough", before_pos, before_pos)
                     after_has_strikethrough = has_tag("strikethrough", after_pos, after_pos)
                     if before_has_strikethrough and after_has_strikethrough:
-                        style_button_striket.configure(image=btn_striket_hover_icon)
+                        menu_bt_striket.configure(image=btn_striket_hover_icon)
                         return
-                style_button_striket.configure(image=btn_striket_icon)
+                menu_bt_striket.configure(image=btn_striket_icon)
 
         # Функция для обновления всех иконок кнопок стиля
         def update_style_buttons(event=None):
@@ -1098,9 +1054,9 @@ def main():
             update_underline_button_icon()
             update_strikethrough_button_icon()
 
-        # Добавляем кнопки стиля шрифта в контейнер с использованием .place() и рассчитанных координат
-        style_button_bold = ctk.CTkButton(
-            style_container,
+        # Добавляем кнопки стиля шрифта в menu_bar с использованием .place()
+        menu_bt_bold = ctk.CTkButton(
+            menu_bar,
             width=STYLE_BUTTON_WIDTH,
             height=STYLE_BUTTON_HEIGHT,
             text="",
@@ -1111,10 +1067,10 @@ def main():
             command=toggle_bold,
             border_spacing=0
         )
-        style_button_bold.place(x=STYLE_BUTTON_BOLD_X, y=0)
+        menu_bt_bold.place(x=STYLE_BUTTON_BOLD_X, y=MENU_BAR_IPADDING_TOP)
 
-        style_button_italic = ctk.CTkButton(
-            style_container,
+        menu_bt_italic = ctk.CTkButton(
+            menu_bar,
             width=STYLE_BUTTON_WIDTH,
             height=STYLE_BUTTON_HEIGHT,
             text="",
@@ -1125,10 +1081,10 @@ def main():
             command=toggle_italic,
             border_spacing=0
         )
-        style_button_italic.place(x=STYLE_BUTTON_ITALIC_X, y=0)
+        menu_bt_italic.place(x=STYLE_BUTTON_ITALIC_X, y=MENU_BAR_IPADDING_TOP)
 
-        style_button_under = ctk.CTkButton(
-            style_container,
+        menu_bt_under = ctk.CTkButton(
+            menu_bar,
             width=STYLE_BUTTON_WIDTH,
             height=STYLE_BUTTON_HEIGHT,
             text="",
@@ -1139,10 +1095,10 @@ def main():
             command=toggle_underline,
             border_spacing=0
         )
-        style_button_under.place(x=STYLE_BUTTON_UNDER_X, y=0)
+        menu_bt_under.place(x=STYLE_BUTTON_UNDER_X, y=MENU_BAR_IPADDING_TOP)
 
-        style_button_striket = ctk.CTkButton(
-            style_container,
+        menu_bt_striket = ctk.CTkButton(
+            menu_bar,
             width=STYLE_BUTTON_WIDTH,
             height=STYLE_BUTTON_HEIGHT,
             text="",
@@ -1153,7 +1109,7 @@ def main():
             command=toggle_strikethrough,
             border_spacing=0
         )
-        style_button_striket.place(x=STYLE_BUTTON_STRIKET_X, y=0)
+        menu_bt_striket.place(x=STYLE_BUTTON_STRIKET_X, y=MENU_BAR_IPADDING_TOP)
 
         # Функция для обновления ширины меню при изменении размера окна
         def update_menu_bar_width(event):
